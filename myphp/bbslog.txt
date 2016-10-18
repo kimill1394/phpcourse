@@ -1,0 +1,1 @@
+a:1:{i:0;a:3:{s:5:"namae";s:2:"dd";s:4:"body";s:2:"dd";s:4:"mode";s:5:"write";}}

@@ -1,0 +1,3 @@
+breakfast     300￥
+lunch         450￥
+dinner        600￥

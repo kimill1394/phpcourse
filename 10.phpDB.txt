@@ -1,0 +1,116 @@
+1. 상태조사
+> status
+
+2. 사용가능 문자셋 확인
+> show character set;
+jis -- japan industry standard
+
+3. DB생성
+> CREATE DATABASE DBexample DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+> ALTER DATABASE DBexample DEFAULT CHARACTER SET utf8;
+> CREATE TABLE tableExample DEFAULT CHARSET=utf8;
+
+
+4. 세션별 캐릭터 셋 변경
+> SET NAMES euckr, utf8, sjis...
+
+* phpMyAdmin 설정 후 사용해보기
+config.inc.php user, password 설정
+
+SQL 문장의 종류
+1. ddl : data definition language
+  create / drop / alter
+2. dml : manipylation
+  select / insert / update / delete
+3. dcl : control
+  commit / rollback / grant / remove
+
+
+php와 db동작
+http://php.net/manual/kr/refs.database.php
+
+
+php - 추상레이어 - dbms
+      pdo(코어모듈/dbms driver)        mysql
+        extenstion=php_pdo_mysql.dll(dll은윈도우 so-리눅스, 맥)
+
+  dsn : DATA Source Name
+    'PDO 드라이버 이름: host=DB서버아이피:port=DB서버의포트번호; dbname = 접속할 db명, charset=문자셋;"
+    'mysql:host=localhost;port=3303;dbname=test;sharset=utf8';
+    'mysql:host=127.0.0.1;port=3303;dbname=test;sharset=utf8';
+
+
+
+2) 디비 접솏해지
+%dbc = new PDO($$dsn, $user, %passrd);
+...
+$dbc = NULL;
+
+
+3) 쿼리 실행준비
+
+prepare() 함수에서 ?를 사용할 수 있다 이건 플레이스 홀더~~~ 내가 나중에 변수로 줄 공간을 고정해줌
+* place holder = :이름 or ?
+
+
+public PDOStatement PDO::prepare(
+  string $statment
+    [, array $driver_options = array()]
+)
+
+
+$driver_options
+  array(PDO::ATTR_CURSOR=>PDO::CURSOR_FWDONLY)
+  array(PDO::ATTR_CURSOR=>PDO::CURSOR_SCROLL)
+
+
+
+
+4) 쿼리실행
+PDOStatement::execute([array $input_parameters]) // bind
+
+
+
+
+
+
+5) 결과처리
+public mixed PDOStatement::fetch() //파라미터에 =어쩌고 는 어쩌고가 디폴트라는 것
+<?php
+...
+  $dbo = connect();
+  $stt = $dbo->prepare(query);
+  $stt->execute();
+  while($row = $stt->fetch(PDO::FETCH_ASSOC)) {
+
+  }
+...
+?>
+
+PDO::FETCH_ASSOC // 연관(연산rensou)배열 -> $row['컬럼명']
+PDO::FETCH_BOTH  // 배열, 연관배열 -> $row[0]/$row['컬럼명']
+PDO::FETCH_CLASS // $row -> 컬럼명
+
+
+
+
+
+
+
+
+
+잠와
+잠이 온 다 잠이 ㅇㄴ다 잠잠잠ㅈ ㅈㅁ이온다잠이온다 잠 이옹ㄴ다
+
+
+
+
+
+
+
+chcp 949 // 초기화!!!!
+
+
+
+phpMyAdmin > config.inc.php 들어가서 ~

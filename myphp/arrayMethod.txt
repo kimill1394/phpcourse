@@ -1,0 +1,17 @@
+$arr = array(1,2,3,4,5);
+
+$added = array_shift($arr); // added에 1저장하고 배열에서 1 빠짐
+$array_unsift($arr, added) // arr의 앞에 added가 추가됨
+
+$added = array_pop($arr) // arr의 끝 값이 저장되고 삭제
+$array_push($arr, added) // arr의 끝에 added를 추가됨
+
+// about stack
+$reveseArray = array_reverse($arr); // arr를 역순으로 저장
+count($arr) // arr 요소 갯수 반환
+print_r($arr) // 배열 요소를 출력
+$arr = file("파일명"); // 파일의 각 요소를 개행으로 구분해 저장
+shuffle($배열); // 섞기
+$sliceArray = array_slice($arr, startIndex, count) // arr에서 startIndex번째 index의 값부터 count 갯수만큼 잘라 반환
+$spliceArray = array_splice($arr, startIndex, count, replaceArray) // ~잘라 반환하고 replaceArray의 요소로 치환
+sort($arr) // 배열 내용을 정렬

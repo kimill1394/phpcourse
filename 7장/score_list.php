@@ -86,31 +86,27 @@ if (isset($_GET['mode'])) {
 
  <?php
  // select 문 수행
- // if (isset($_GET['mode'])) {
-
     if ($_GET['mode'] == "big_first")          // 성적순 정렬(내림차순)
        $sql = "select * from stud_score order by sum desc";
     else if ($_GET['mode'] == "small_first")   // 성적순 정렬(오름차순)
        $sql = "select * from stud_score order by sum";
-
-      //  }
     else
        $sql = "select * from stud_score";
     // $result = mysql_query($sql);
     $pdostt = $pdo->prepare($sql);
+    // 플레이스 홀더 없으니까 안해도 됨~!!!!!!
     $pdostt->execute();
-    $result = $pdostt->fetch(PDO::FETCH_ASSOC);
 
     $count = 1;                        // 화면 출력 시 일렬번호
 
  // DB 데이터 출력 시작
     // foreach ($result as $row) {
-    while($row = $pdostt->fetch(PDO::FETCH_ASSOC)) {
+    while($row = $pdostt->fetch()) {
        $avg = round($row['avg'], 1);
        $num = $row['num'];
 
        echo "<tr align='center'>
-                <td> $count     </td>
+          <td> $count     </td>
        		<td> $row[name] </td>
        		<td> $row[sub1] </td>
        		<td> $row[sub2] </td>

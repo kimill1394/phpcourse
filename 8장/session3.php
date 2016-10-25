@@ -1,0 +1,25 @@
+<?php
+   session_start();
+
+   $id = $_SESSION['userid'];
+   $name = $_SESSION['username'];
+   $time = $_SESSION['time'];
+
+   $time = date('Y-m-d(H:i:s)', $time);
+?>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=euc-kr" />
+</head>
+<body>
+<h3>등록된 세션의 사용</h3>
+<table width="400" border="1">
+<tr><td>id</td><td>name</td><td>time</td></tr>
+<tr>
+    <td><?=$id ?></td>
+    <td><?=$name ?></td>
+    <td><?=$time ?></td>
+</tr>
+</table>
+</body>
+</html>

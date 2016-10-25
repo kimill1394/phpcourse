@@ -1,14 +1,27 @@
-<?
-   $connect = mysql_connect("localhost","kdhong","1234");
-   mysql_select_db("kdhong_db", $connect);
+<?php
+  //  $connect = mysql_connect("localhost","kdhong","1234");
+  //  mysql_select_db("kdhong_db", $connect);
+  $dsn = 'mysql:host=localhost;dbname=jinabase;';
+  $user = 'jina';
+  $passwd = 'jina';
 
-   // ÇÊµå numÀÌ $num °ªÀ» °¡Áö´Â ·¹ÄÚµå »èÁ¦
-   $sql = "delete from stud_score where num = $num";  
-   mysql_query($sql, $connect);
+  try {
+    $pdo = new PDO($dsn, $user, $passwd);
+    // echo ìž…ë ¥ ì„±ê³µ<br>;
 
-   mysql_close($connect);
+  } catch (PDOExeption $e) {
+    // exit("DBì ‘ì†ë¶ˆê°€: {$e->getMessage()}");
+    echo "err!";
+  }
 
-   // score_list.php ·Î µ¹¾Æ°¨
-   Header("Location:score_list.php"); 
+   $sql = "delete from stud_score where num = $_GET[num]";
+  //  mysql_query($sql, $connect);
+  $stt = $pdo->prepare($sql);
+  $stt->execute();
+
+  //  mysql_close($connect);
+  $pdo = NULL;
+
+
+   Header("Location:score_list.php");
 ?>
- 

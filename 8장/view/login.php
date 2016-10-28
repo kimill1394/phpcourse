@@ -33,7 +33,8 @@
         </div>
         <br>
         <div class="wrap_submit">
-          <input type="submit" id="input_submit">
+          <input type="hidden" name="mode" value="login"</input>
+          <input type="submit" id="input_submit" value="login">
         </div>
       </div>
     </form>

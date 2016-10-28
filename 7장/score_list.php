@@ -24,20 +24,37 @@ if (isset($_GET['mode'])) {
         $sum = $_POST['sub1'] + $_POST['sub2'] + $_POST['sub3'] + $_POST['sub4'] + $_POST['sub5'];           // 합계 구하기
         $avg = $sum/5;                           		// 평균 구하기
 
-        $sql = "insert into stud_score (name, sub1, sub2, sub3, sub4, sub5, sum, avg) values";
-        // $sql .= "('$name', $sub1, $sub2, $sub3, $sub4, $sub4, $sum, $avg)";
-        $sql .= "(:name, :sub1, :sub2, :sub3, :sub4, :sub5, :sum, :avg)";
+        // $sql = "insert into stud_score (name, sub1, sub2, sub3, sub4, sub5, sum, avg) values";
+        // // $sql .= "('$name', $sub1, $sub2, $sub3, $sub4, $sub4, $sum, $avg)";
+        // $sql .= "(:name, :sub1, :sub2, :sub3, :sub4, :sub5, :sum, :avg)";
+
+################################################################
 
 
+          $stt = $pdo->prepare("INSERT INTO stud_score (name, sub1, sub2, sub3, sub4, sub5, sum, avg) VALUES(:name, :sub1, :sub2, :sub3, :sub4, :sub5, :sum, :avg)");
+          $result = $stt->execute(
+            array(
+              ':name'=>$_POST['name'],
+              ':sub1'=>$_POST['sub1'],
+               ':sub2'=>$_POST['sub2'],
+               ':sub3'=>$_POST['sub3'],
+               ':sub4'=>$_POST['sub4'],
+               ':sub5'=>$_POST['sub5'],
+               ':sum'=>$sum,
+               ':avg'=>$avg
+            )
+      );
+
+################################################################
 
         // $result = mysql_query($sql, $connect);
-        $pdostt = $pdo->prepare($sql, array(PDO::ATTR_CURSOR=>PDO::CURSOR_SCROLL));
-        try {
-          $pdostt->execute(array(':name'=>$_POST['name'], ':sub1'=>$_POST['sub1'], ':sub2'=>$_POST['sub2'], ':sub3'=>$_POST['sub3'], ':sub4'=>$_POST['sub4'], ':sub5'=>$_POST['sub5'], ':sum'=>$sum, ':avg'=>$avg));
-          echo "입력 성공!2";
-        } catch (PDOExeption $e) {
-          exit("ERR!");
-        }
+        // $pdostt = $pdo->prepare($sql, array(PDO::ATTR_CURSOR=>PDO::CURSOR_SCROLL));
+        // try {
+        //   $pdostt->execute(array(':name'=>$_POST['name'], ':sub1'=>$_POST['sub1'], ':sub2'=>$_POST['sub2'], ':sub3'=>$_POST['sub3'], ':sub4'=>$_POST['sub4'], ':sub5'=>$_POST['sub5'], ':sum'=>$sum, ':avg'=>$avg));
+        //   echo "입력 성공!2";
+        // } catch (PDOExeption $e) {
+        //   exit("ERR!");
+        // }
     }
   } else {
     echo "값 없음";

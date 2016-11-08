@@ -8,53 +8,42 @@
     <link rel="stylesheet" href="../css/member.css" type="text/css" media="all">
     <script type="text/javascript">
 
-       function check_id()
-       {
-         window.open("check_id.php?id=" + document.member_form.id.value,
-             "IDcheck",
-              "left=200,top=200,width=200,height=60,scrollbars=no,resizable=yes");
-       }
+    function check_id() {
+      window.open("check_id.php?id="+document.member_form.id.value , "IDcheck", "left=200, top=200, width=250, height=100, scrollbars=no, resizable=yes");
+    }
 
-       function check_nick()
-       {
-         window.open("check_nick.php?nick=" + document.member_form.nick.value,
-             "NICKcheck",
-              "left=200,top=200,width=200,height=60,scrollbars=no,resizable=yes");
-       }
+    function check_nick() {
+      window.open("check_nick.php?nick="+document.member_form.nick.value, "NICKcheck", "left=200, top=200, width=250, height=100, scrollbars=no, resizable=yes");
+    }
 
        function check_input()
        {
-          if (!document.member_form.id.value)
-          {
-              alert("���̵��� �Է��ϼ���");
-              document.member_form.id.focus();
-              return;
-          }
+
 
           if (!document.member_form.pass.value)
           {
-              alert("���й�ȣ�� �Է��ϼ���");
+              alert("비밀번호를 입력하세욤");
               document.member_form.pass.focus();
               return;
           }
 
           if (!document.member_form.pass_confirm.value)
           {
-              alert("���й�ȣȮ���� �Է��ϼ���");
+              alert("비밀번호 확인을 입력하세욤");
               document.member_form.pass_confirm.focus();
               return;
           }
 
           if (!document.member_form.name.value)
           {
-              alert("�̸��� �Է��ϼ���");
+              alert("이름을 입력하세욤");
               document.member_form.name.focus();
               return;
           }
 
           if (!document.member_form.nick.value)
           {
-              alert("�г����� �Է��ϼ���");
+              alert("닉네임을 입력하세욤");
               document.member_form.nick.focus();
               return;
           }
@@ -62,7 +51,7 @@
 
           if (!document.member_form.hp2.value || !document.member_form.hp3.value )
           {
-              alert("�޴��� ��ȣ�� �Է��ϼ���");
+              alert("휴대폰 번호를 입력하세욤");
               document.member_form.nick.focus();
               return;
           }
@@ -70,7 +59,7 @@
           if (document.member_form.pass.value !=
                 document.member_form.pass_confirm.value)
           {
-              alert("���й�ȣ�� ��ġ���� �ʽ��ϴ�.\n�ٽ� �Է����ּ���.");
+              alert("비밀번호가 일치하지 않네요! \n다시 입력하세요~");
               document.member_form.pass.focus();
               document.member_form.pass.select();
               return;
@@ -81,7 +70,6 @@
 
        function reset_form()
        {
-          document.member_form.id.value = "";
           document.member_form.pass.value = "";
           document.member_form.pass_confirm.value = "";
           document.member_form.name.value = "";
@@ -92,12 +80,30 @@
           document.member_form.email1.value = "";
           document.member_form.email2.value = "";
 
-          document.member_form.id.focus();
+          document.member_form.name.focus();
 
           return;
        }
     </script>
   </head>
+  <?php
+      require_once "../lib/PDOmanagement.php";
+      try {
+        $pdo = connect();
+        $sql = "select * from member where id = :id";
+        $stt = $pdo->prepare($sql, array(PDO::ATTR_CURSOR=>PDO::CURSOR_SCROLL));
+        $stt -> execute(array(':id' => "{$_SESSION['userid']}"));
+        $row = $stt -> fetch(PDO::FETCH_ASSOC);
+
+        $hp = explode('-', $row['hp']);
+        $email = explode('@', $row['email']);
+
+        $pdo = null;
+
+      } catch (PDOExeption $e) {
+        exit(" 오류~");
+      }
+   ?>
   <body>
   	<div id="wrap">
   		<div id="header">
@@ -117,7 +123,7 @@
   		</div>
   	</div> <!-- end of col1 -->
   	<div id="col2">
-          <form  name="member_form" method="post" action="insert.php">
+          <form  name="member_form" method="post" action="modify.php">
   		<div id="title">
   			<img src="../img/title_join.gif">
   		</div>
@@ -137,27 +143,31 @@
   			<div id="join2">
   			<ul>
   			<li>
-  				<div id="id1"><input type="text" name="id"></div>
+  				<!-- <div id="id1"><input type="text" name="id"></div>
   				<div id="id2">
   					<a href="#">
   						<img src="../img/check_id.gif" onclick="check_id()">
   					</a>
   				</div>
-  				<div id="id3">4~12자의 영문 소문자, 특수기호(_) 만 사용할 수 있습니다.</div>
+  				<div id="id3">4~12자의 영문 소문자, 특수기호(_) 만 사용할 수 있습니다.</div> -->
+          <?php echo $row['id']; ?>
   			</li>
-  			<li><input type="password" name="pass"></li>
+  			<li><input type="password" name="pass" value="<?php echo $row['pass']; ?>"></li>
   			<li><input type="password" name="pass_confirm"></li>
-  			<li><input type="text" name="name"></li>
-  			<li><div id="nick1"><input type="text" name="nick"></div><div id="nick2" ><a href="#"><img src="../img/check_id.gif" onclick="check_nick()"></a></div></li>
-  			<li><select class="hp" name="hp1">
+  			<li><input type="text" name="name" value="<?php echo $row['name']; ?>"></li>
+  			<li><div id="nick1"><input type="text" name="nick" value="<?php echo $row['nick']; ?>"></div><div id="nick2" ><a href="#"><img src="../img/check_id.gif" onclick="check_nick()"></a></div></li>
+  			<li>
+          <!-- <select class="hp" name="hp1">
                 <option value='010'>010</option>
                 <option value='011'>011</option>
                 <option value='016'>016</option>
                 <option value='017'>017</option>
                 <option value='018'>018</option>
                 <option value='019'>019</option>
-                </select>  - <input type="text" class="hp" name="hp2"> - <input type="text" class="hp" name="hp3"></li>
-  			<li><input type="text" id="email1" name="email1"> @ <input type="text" name="email2"></li>
+                </select>  -->
+                <input type="text" class="hp" name="hp1" value="<?php echo $hp[0]; ?>">
+                 - <input type="text" class="hp" name="hp2" value="<?php echo $hp[1]; ?>"> - <input type="text" class="hp" name="hp3"value="<?php echo $hp[2]; ?>"></li>
+  			<li><input type="text" id="email1" name="email1" value="<?php echo $email[0]; ?>"> @ <input type="text" name="email2" value="<?php echo $email[1]; ?>"></li>
   			</ul>
   			</div>
   			<div class="clear"></div>

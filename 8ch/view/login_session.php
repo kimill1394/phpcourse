@@ -18,10 +18,36 @@
         margin-top: 100px;
       }
     </style>
+    <?php
+    session_start();
+    require_once 'PDOmanagement.php';
+
+    $pdo = connect();
+
+    if(isset($_POST['mode'])) {
+      $sql = "select * from idtable where id = :id";
+      $stt = $pdo->prepare($sql);
+      $stt->execute(array('id'=>"{$_POST['id']}"));
+      if ($stt->rowCount()==1) {
+        $sql = "select * from idtable where password = :password";
+        $stt = $pdo->prepare($sql);
+        $stt->execute(array('password'=>"{$_POST['password']}"));
+        if($stt->rowCount()==1) {
+          $_SESSION['id'] = $_POST['id'];
+          $_SESSION['password'] = $_POST['password'];
+          header("location: login_result.php");
+        } else {
+          echo "PASSWORD TT";
+        }
+      } else {
+        echo "ID TT";
+      }
+    }
+    ?>
     <title></title>
   </head>
   <body>
-    <form action="../controler/login_controller.php" method="POST">
+    <form action="" method="POST">
       <div class="table">
         <div class="wrap_lavel tr">
           <div class="lavel"> ID </div>

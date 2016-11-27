@@ -57,7 +57,10 @@ $number = $total_record-$start;
             <div id="memo2"><input type="image" src="../img/memo_button.gif"></div>
           </form>
         </div>
-        <?php for ($i=$start; $i<$start+$scale && $i < $total_record ; $i++) {
+        <?php
+          $row = $stt->fetch();
+          echo $row['num']."Fff";
+            for ($i=$start; $i<$start+$scale && $i < $total_record ; $i++) {
             $row = $stt->fetch(PDO::FETCH_ASSOC, PDO::FETCH_ORI_ABS, $i);
             $memo_id = $row['id'];
             $memo_num = $row['num'];
